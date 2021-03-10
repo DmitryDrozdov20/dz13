@@ -1,5 +1,6 @@
 ---
 - name: Create an ec2 instance build
+  plugin: aws_ec2
   hosts: localhost
   gather_facts: false
  
