@@ -1,9 +1,31 @@
 ---
 - name: Create an ec2 instance build
-  plugin: aws_ec2
   hosts: localhost
   gather_facts: false
- 
+  
+  plugin: aws_ec2
+  boto_profile: aws_profile
+  # Populate inventory with instances in these regions
+  regions:
+    - us-east-2
+  filters:
+  # All instances with their `Environment` tag set to `dev`
+  tag:Environment: build
+  # All dev and QA hosts
+  tag:Environment:
+    - build
+    - prod
+  instance.group-id: sg-0c485f5e7bf3215ad
+  # Ignores 403 errors rather than failing
+  strict_permissions: False
+  # Note: I(hostnames) sets the inventory_hostname. To modify ansible_host without modifying
+  # inventory_hostname use compose (see example below).
+  hostnames:
+  - tag:Name=Tag1,Name=Tag2  # Return specific hosts only
+  - tag:CustomDNSName
+  - dns-name
+  - private-ip-address
+
   vars:
       region: us-east-2
       instance_type: t2.micro
