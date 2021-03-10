@@ -18,7 +18,7 @@
          image: "{{ ami }}"
          wait: true
          region: "{{ region }}"
-         vpc_id: vpc-96e950fd
+         vpc_subnet_id: subnet-79d39435
          count: 2
          count_tag:
             Name: Demo
