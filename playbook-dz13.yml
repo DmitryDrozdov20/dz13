@@ -18,6 +18,7 @@
          image: "{{ ami }}"
          wait: true
          region: "{{ region }}"
+         vpc_id: vpc-96e950fd
          count: 2
          count_tag:
             Name: Demo
