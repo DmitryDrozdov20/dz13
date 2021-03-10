@@ -12,7 +12,7 @@
   tasks:
     - name: Create an ec2 instance
       ec2:
-         key_name: "{{ keypair }}"
+         # key_name: "{{ keypair }}"
          group: EC2SecurityGroup1
          instance_type: "{{ instance_type }}"
          image: "{{ ami }}"
