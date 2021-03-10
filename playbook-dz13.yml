@@ -1,6 +1,6 @@
 ---
 - name: Create an ec2 instance build
-  hosts: build
+  hosts: localhost
   gather_facts: false
  
   vars:
