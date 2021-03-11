@@ -18,12 +18,12 @@
          image: "{{ ami }}"
          wait: true
          region: "{{ region }}"
-         vpc_subnet_id: subnet-79d39435
-         exact_count: 1
+         vpc_subnet_id: subnet-79d39435       
          instance_tags:
            Name: "{{ item }}"
          count_tag:
-            Name: "{{ item }}"
-      with_items: ['build', 'prod']
+           Name: "{{ item }}"
+         exact_count: 1
          assign_public_ip: yes
+      with_items: ['build', 'prod']
       register: ec2
