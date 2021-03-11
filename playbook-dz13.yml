@@ -19,10 +19,11 @@
          wait: true
          region: "{{ region }}"
          vpc_subnet_id: subnet-79d39435
-         count: 2
-         count_tag:
-            Name: Demo
+         exact_count: 1
          instance_tags:
-            Name: Demo
+           Name: "{{ item }}"
+         count_tag:
+            Name: "{{ item }}"
+      with_items: ['build', 'prod']
          assign_public_ip: yes
       register: ec2
