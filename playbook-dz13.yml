@@ -2,8 +2,7 @@
 - name: Create an ec2 instance build
   hosts: localhost
   gather_facts: false
-  
-  vars:
+   vars:
       region: us-east-2
       instance_type: t2.micro
       ami: ami-08962a4068733a2b6
@@ -18,12 +17,11 @@
          image: "{{ ami }}"
          wait: true
          region: "{{ region }}"
-         vpc_subnet_id: subnet-79d39435       
-         instance_tags:
-           Name: "{{ item }}"
+         vpc_subnet_id: subnet-79d39435
+         count: 2
          count_tag:
-           Name: "{{ item }}"
-         exact_count: 1
+            Name: Demo
+         instance_tags:
+            Name: Demo
          assign_public_ip: yes
-      with_items: ['build', 'prod']
       register: ec2
