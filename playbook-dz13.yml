@@ -7,6 +7,7 @@
       key_name: my-key
       region_name: us-east-2
       instance_type: t2.micro
+      instance_name: aws-dz13
       ami: ami-08962a4068733a2b6
       # keypair: my-key
 
@@ -21,7 +22,7 @@
       copy: content="{{ ec2_key.key.private_key }}" dest="./keys/{{ key_name }}.pem" mode=0600
       when: ec2_key.changed
 
-    - name: Create EC2 VPC default security group for Staging and Production instances
+    - name: Create EC2 VPC default security
       ec2_group:
         name: "{{ instance_name }}"
         description: Security Group for {{ instance_name }}
