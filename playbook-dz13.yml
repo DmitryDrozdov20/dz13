@@ -2,11 +2,38 @@
 - name: Create an ec2 instance build
   hosts: localhost
   gather_facts: false
-   vars:
+  
+  vars:
       region: us-east-2
       instance_type: t2.micro
       ami: ami-08962a4068733a2b6
       keypair: my-key
+
+      tasks:
+    - name: Create a new EC2 key pair for Staging and Production environments
+      ec2_key:
+        name: "{{ key_name }}"
+        region: "{{ region_name }}"
+      register: ec2_key
+
+    - name: Save private key
+      copy: content="{{ ec2_key.key.private_key }}" dest="./keys/{{ key_name }}.pem" mode=0600
+      when: ec2_key.changed
+
+      - name: Create EC2 VPC default security group for Staging and Production instances
+      ec2_group:
+        name: "{{ instance_name }}"
+        description: Security Group for {{ instance_name }}
+        vpc_id: "{{ vpc_id }}"
+        region: "{{ region_name }}"
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+              - 8080
+            cidr_ip: 0.0.0.0/0
+            rule_desc: "Allow SSH for instances and HTTP connections for Tomcat9"
+      register: security_group
  
   tasks:
     - name: Create an ec2 instance
@@ -17,11 +44,12 @@
          image: "{{ ami }}"
          wait: true
          region: "{{ region }}"
-         vpc_subnet_id: subnet-79d39435
-         count: 2
-         count_tag:
-            Name: Demo
+         vpc_subnet_id: subnet-79d39435       
          instance_tags:
-            Name: Demo
+           Name: "{{ item }}"
+         count_tag:
+           Name: "{{ item }}"
+         exact_count: 1
          assign_public_ip: yes
+      with_items: ['build', 'prod']
       register: ec2
