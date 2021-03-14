@@ -21,6 +21,23 @@
     - name: Save private key
       copy: content="{{ ec2_key.key.private_key }}" dest="./keys/{{ key_name }}.pem" mode=0600
       when: ec2_key.changed
+    
+    - name: Obtain default VPC information from AWS
+      ec2_vpc_net_facts:
+        filters:
+          "isDefault": "true"
+      register: default_vpc
+
+    - name: Obtain subnets for default VPC
+      ec2_vpc_subnet_facts:
+        filters:
+          vpc-id: "{{ default_vpc['vpcs'][0]['vpc_id'] }}"
+      register: subnet_info
+
+    - set_fact:
+        vpc_id: "{{ default_vpc['vpcs'][0]['vpc_id'] }}"
+        random_subnet: "{{ subnet_info.subnets|map(attribute='id')|list|random }}"
+   
     - name: Create EC2 VPC default security
       ec2_group:
         name: "{{ instance_name }}"
