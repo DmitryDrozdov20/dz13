@@ -7,7 +7,7 @@
       region: us-east-2
       instance_type: t2.micro
       ami: ami-08962a4068733a2b6
-      keypair: my-key
+      # keypair: my-key
 
   tasks:
     - name: Create a new EC2 key pair for Staging and Production environments
