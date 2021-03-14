@@ -5,7 +5,7 @@
   
   vars:
       key_name: my-key
-      region: us-east-2
+      region_name: us-east-2
       instance_type: t2.micro
       ami: ami-08962a4068733a2b6
       # keypair: my-key
@@ -43,7 +43,7 @@
          instance_type: "{{ instance_type }}"
          image: "{{ ami }}"
          wait: true
-         region: "{{ region }}"
+         region: "{{ region_name }}"
          vpc_subnet_id: subnet-79d39435       
          instance_tags:
            Name: "{{ item }}"
