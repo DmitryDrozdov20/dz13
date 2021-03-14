@@ -4,7 +4,7 @@
   gather_facts: false
   
   vars:
-      key_name: my-key
+      key_name: my-key-ssh
       region_name: us-east-2
       instance_type: t2.micro
       instance_name: aws-dz13
