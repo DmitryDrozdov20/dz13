@@ -29,7 +29,7 @@
       register: default_vpc
 
     - name: Obtain subnets for default VPC
-      ec2_vpc_net_info:
+      ec2_vpc_subnet_info:
         filters:
           vpc-id: "{{ default_vpc['vpcs'][0]['vpc_id'] }}"
       register: subnet_info
