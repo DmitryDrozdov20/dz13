@@ -4,6 +4,7 @@
   gather_facts: false
   
   vars:
+      key_name: my-key
       region: us-east-2
       instance_type: t2.micro
       ami: ami-08962a4068733a2b6
