@@ -72,39 +72,25 @@
       with_items: ['build', 'prod']
       register: ec2
 
-    - name: Add new instance Staging to host group
-      add_host:
-        name: "{{ item.public_ip }}"
-        groups: "{{ item.tags.Name }}"
-        ansible_ssh_private_key_file: ./keys/{{ key_name }}.pem
-      with_items: "{{ ec2.results[0].instances }}"
-
-    - name: Add new instance Production to host group
-      add_host:
-        name: "{{ item.public_ip }}"
-        groups: "{{ item.tags.Name }}"
-        ansible_ssh_private_key_file: ./keys/{{ key_name }}.pem
-      with_items: "{{ ec2.results[1].instances }}"
-
     - debug:
         var: ec2.results
 
-    - name: Add new instance Staging to host group
+    - name: Add new instance Build to host group
       add_host:
         name: "{{ item.public_ip }}"
         groups: "{{ item.tags.Name }}"
         ansible_ssh_private_key_file: ./keys/{{ key_name }}.pem
       with_items: "{{ ec2.results[0].instances }}"
 
-    - name: Add new instance Production to host group
+    - name: Add new instance Prod to host group
       add_host:
         name: "{{ item.public_ip }}"
         groups: "{{ item.tags.Name }}"
         ansible_ssh_private_key_file: ./keys/{{ key_name }}.pem
       with_items: "{{ ec2.results[1].instances }}"
 
-- name: Prepare Staging environment
-  hosts: staging
+- name: Prepare Build environment
+  hosts: build
   remote_user: ubuntu
   become: yes
 
@@ -128,21 +114,21 @@
     - name: Ensure Fusebox git repository cloned to host
       git:
        repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
-       dest: /home/pkhramchenkov/boxfuse
+       dest: /home/dz13/boxfuse
        clone: yes
 
     - name: Build Webapp
-      command: mvn -f /home/pkhramchenkov/boxfuse/pom.xml clean package
+      command: mvn -f /home/dz13/boxfuse/pom.xml clean package
 
     - name: Ensure Webapp is uploaded to S3 bucket
       aws_s3:
         bucket: "{{ s3_bucket_name }}"
         object: /hello-1.0.war
-        src: /home/pkhramchenkov/boxfuse/target/hello-1.0.war
+        src: /home/dz13/boxfuse/target/hello-1.0.war
         mode: put
         overwrite: yes
 
-- name: Prepare Production environment
+- name: Prepare Prod environment
   hosts: prod
   remote_user: ubuntu
   become: yes
