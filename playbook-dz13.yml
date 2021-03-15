@@ -126,7 +126,7 @@
       command: mvn -f /home/dz13/boxfuse/pom.xml clean package
 
     - name: Ensure Webapp is uploaded to S3 bucket
-      aws_s3:
+      s3:
         bucket: "{{ s3_bucket_name }}"
         object: /hello-1.0.war
         src: /home/dz13/boxfuse/target/hello-1.0.war
