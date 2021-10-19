@@ -10,7 +10,7 @@
       s3_bucket_name: boxfuse.dz13
       instance_name: aws-dz13
       ami: ami-00399ec92321828f5
-      keypair: MyKeyPair
+      # keypair: MyKeyPair
 
   tasks:
     - name: Create a new EC2 key pair for Staging and Production environments
