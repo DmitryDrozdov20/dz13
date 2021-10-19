@@ -10,7 +10,6 @@
       s3_bucket_name: boxfuse.dz13
       instance_name: aws-dz13
       ami: ami-00399ec92321828f5
-      # keypair: MyKeyPair
 
   tasks:
     - name: Create a new EC2 key pair for Staging and Production environments
@@ -97,6 +96,7 @@
 - name: Prepare Build environment
   hosts: build
   remote_user: ubuntu
+  validate_certs: false
   become: yes
 
   tasks:
@@ -159,6 +159,11 @@
       service:
        name: tomcat9
        state: started
+
+    - name: Ensure AWSCLI package is present
+      apt:
+       name: awscli
+       state: present
 
     - name: Ensure Webapp artifact is downloaded from S3 bucket
       aws_s3:
