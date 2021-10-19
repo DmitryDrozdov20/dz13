@@ -96,7 +96,6 @@
 - name: Prepare Build environment
   hosts: build
   remote_user: ubuntu
-  validate_certs: false
   become: yes
 
   tasks:
