@@ -116,7 +116,12 @@
        name: maven
        state: present
 
-    - name: Ensure Fusebox git repository cloned to host
+    - name: Ensure AWSCLI package is present
+      apt:
+       name: awscli
+       state: present  
+
+    - name: Ensure Boxfuse git repository cloned to host
       git:
        repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
        dest: /home/dz13/boxfuse
