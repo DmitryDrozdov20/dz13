@@ -120,6 +120,11 @@
        name: awscli
        state: present  
 
+    - name: Ensure boto3 package is present
+      apt:
+       name: boto3
+       state: present
+
     - name: Ensure Boxfuse git repository cloned to host
       git:
        repo: 'https://github.com/boxfuse/boxfuse-sample-java-war-hello.git'
