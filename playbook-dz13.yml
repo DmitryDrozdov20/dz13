@@ -122,7 +122,7 @@
 
     - name: Ensure boto3 package is present
       apt:
-       name: boto3
+       name: python3-boto3
        state: present
 
     - name: Ensure Boxfuse git repository cloned to host
